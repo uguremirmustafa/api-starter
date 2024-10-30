@@ -22,3 +22,5 @@ export const taskInsertSchema = createInsertSchema(tasks, {
 })
   .required({ done: true })
   .omit({ createdAt: true, updatedAt: true, id: true });
+
+export const taskPatchSchema = taskInsertSchema.partial();
