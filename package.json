@@ -6,7 +6,7 @@
     "dev": "tsx watch src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "cross-env NODE_ENV=test vitest",
+    "test": "vitest",
     "db:migrate": "cross-env DB_MIGRATING=true drizzle-kit migrate",
     "db:generate": "npx drizzle-kit generate",
     "db:push": "npx drizzle-kit push",

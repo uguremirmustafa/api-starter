@@ -1,5 +1,9 @@
 services:
   db:
+    env_file: 
+      - path: ./.env
+        required: true # default
+    container_name: api_starter_dev_container
     image: postgres:16.4
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}

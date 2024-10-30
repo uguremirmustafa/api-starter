@@ -4,7 +4,6 @@ import { taskInsertSchema, taskPatchSchema, taskSelectSchema } from "@/db/schema
 import { notFoundSchema } from "@/lib/constants";
 import * as HttpStatusCodes from "@/utils/http-status-codes";
 import jsonContent from "@/utils/openapi/json-content";
-import jsonContentOneOf from "@/utils/openapi/json-content-one-of";
 import jsonContentRequired from "@/utils/openapi/json-content-required";
 import createErrorSchema from "@/utils/openapi/schemas/create-error-schema";
 import IdUUIDParamsSchema from "@/utils/openapi/schemas/uuid-params-schema";
@@ -56,19 +55,26 @@ export const getOne = createRoute({
 export const patch = createRoute({
   path: "/tasks/{id}",
   method: "patch",
-  tags,
   request: {
     params: IdUUIDParamsSchema,
-    body: jsonContentRequired(taskPatchSchema, "The task updates"),
+    body: jsonContentRequired(
+      taskPatchSchema,
+      "The task updates",
+    ),
   },
+  tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(taskSelectSchema, "The updated task"),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Task not found"),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContentOneOf(
-      [
-        createErrorSchema(taskPatchSchema),
-        createErrorSchema(IdUUIDParamsSchema),
-      ],
+    [HttpStatusCodes.OK]: jsonContent(
+      taskSelectSchema,
+      "The updated task",
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      notFoundSchema,
+      "Task not found",
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(taskPatchSchema)
+        .or(createErrorSchema(IdUUIDParamsSchema)),
       "The validation error(s)",
     ),
   },

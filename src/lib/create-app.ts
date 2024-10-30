@@ -6,7 +6,7 @@ import onError from "@/middlewares/on-error";
 import { logger } from "@/middlewares/pino-logger";
 import defaultHook from "@/utils/openapi/default-openapi-hook";
 
-import type { AppBindings } from "./types";
+import type { AppBindings, AppOpenAPI } from "./types";
 
 export function createRouter() {
   return new OpenAPIHono<AppBindings>({ strict: false, defaultHook });
@@ -24,3 +24,9 @@ function createApp() {
 }
 
 export default createApp;
+
+export function createTestApp(router: AppOpenAPI) {
+  const testApp = createApp();
+  testApp.route("/", router);
+  return testApp;
+}
