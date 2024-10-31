@@ -13,6 +13,7 @@ node_modules/
 
 # env
 .env
+.env.local
 .env.test
 .env.production
 
@@ -31,3 +32,5 @@ lerna-debug.log*
 docker-data
 docker-test-data
 docker-compose-test.yml
+
+dist

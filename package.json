@@ -3,14 +3,16 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest",
-    "db:migrate": "cross-env DB_MIGRATING=true drizzle-kit migrate",
     "db:generate": "npx drizzle-kit generate",
-    "db:push": "npx drizzle-kit push",
-    "db:studio": "npx drizzle-kit studio"
+    "db:migrate": "cross-env DB_MIGRATING=true NODE_ENV=development drizzle-kit migrate",
+    "db:push": "cross-env NODE_ENV=development npx drizzle-kit push",
+    "db:studio": "cross-env NODE_ENV=development npx drizzle-kit studio",
+    "build": "tsc && tsc-alias",
+    "start": "cross-env NODE_ENV=production node ./dist/src/index.js"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.2.0",

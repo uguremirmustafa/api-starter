@@ -1,7 +1,7 @@
 services:
   db:
     env_file: 
-      - path: ./.env
+      - path: ./.env.local
         required: true # default
     container_name: api_starter_dev_container
     image: postgres:16.4

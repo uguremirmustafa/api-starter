@@ -4,15 +4,25 @@ import { expand } from "dotenv-expand";
 import path from "node:path";
 import { z } from "zod";
 
+const environments = ["development", "test", "production"] as const;
+
+type ENV = typeof environments[number];
+
+const envFileMap: Record<ENV, string> = {
+  development: ".env.local",
+  production: ".env.production",
+  test: ".env.test",
+};
+
 expand(config({
   path: path.resolve(
     process.cwd(),
-    process.env.NODE_ENV === "test" ? ".env.test" : ".env",
+    envFileMap[process.env.NODE_ENV as ENV],
   ),
 }));
 
 const EnvSchema = z.object({
-  NODE_ENV: z.string().default("development"),
+  NODE_ENV: z.enum(environments).default("development"),
   PORT: z.coerce.number().default(9999),
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
 
@@ -21,11 +31,6 @@ const EnvSchema = z.object({
 
   DATABASE_URL: z.string().url(),
   DATABASE_AUTH_TOKEN: z.string().optional(),
-  DB_HOST: z.string(),
-  DB_PASSWORD: z.string(),
-  DB_USER: z.string(),
-  DB_NAME: z.string(),
-  DB_PORT: z.coerce.number().default(5432),
   DB_MIGRATING: z
     .string()
     .refine(s => s === "true" || s === "false")

@@ -1,8 +1,8 @@
-```
-npm install
-npm run dev
-```
+# REST API Starter
 
-```
-open http://localhost:3000
-```
+## Tech stack
+
+- Hono
+- Zod
+- Drizzle
+- Postgres
